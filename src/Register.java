@@ -1,5 +1,13 @@
 
 import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import javax.swing.JFrame;
 
 public class Register extends javax.swing.JFrame {
 
@@ -7,10 +15,39 @@ public class Register extends javax.swing.JFrame {
      * Creates new form Register
      */
     public Register() {
+        
         initComponents();
         setLocationRelativeTo(null);
+        
+        try {
+            Connection();
+        } catch (SQLException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    Connection con;
+    Statement st;
+    
+    public static final String DbName = "inventory_data";
+    public static final String DbDriver = "com.mysql.cj.jdbc.Driver";
+    public static final String DbUrl = "jdbc:mysql://localhost:3306/"+DbName;
+    private static final String DbUsername = "root";
+    private static final String DbPassword = "";
+    
+    public void Connection() throws SQLException {
+        try {
+            Class.forName(DbDriver);
+            con = DriverManager.getConnection(DbUrl, DbUsername, DbPassword);
+            st = con.createStatement();
+            if (con != null) {
+                System.out.println("connection established");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -22,15 +59,15 @@ public class Register extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        emailRegister = new javax.swing.JTextField();
+        passwordRegister = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        confirmRegister = new javax.swing.JPasswordField();
         jLabel10 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
 
@@ -70,13 +107,13 @@ public class Register extends javax.swing.JFrame {
         jLabel5.setText("REGISTER");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 540, 40));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        emailRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                emailRegisterActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 380, -1));
-        getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 380, -1));
+        getContentPane().add(emailRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 380, -1));
+        getContentPane().add(passwordRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 380, -1));
 
         jButton1.setBackground(new java.awt.Color(102, 102, 102));
         jButton1.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
@@ -116,7 +153,7 @@ public class Register extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("INVENTORY MANAGEMENT SYSTEM");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 540, 110));
-        getContentPane().add(jPasswordField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, 380, -1));
+        getContentPane().add(confirmRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, 380, -1));
 
         jLabel10.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -138,9 +175,9 @@ public class Register extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void emailRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailRegisterActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_emailRegisterActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int exit = JOptionPane.showConfirmDialog(null, "Do you want to close Inventory System", "Select",JOptionPane.YES_NO_OPTION);
@@ -156,9 +193,54 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Admin ad = new Admin();
-        ad.setVisible(true);
-        setVisible(false);
+        String email,pass,query;
+        if ("".equals(emailRegister.getText())) {
+            JOptionPane.showMessageDialog(new JFrame(), "EMAIL cannot be empty");
+            return;
+        }
+        if ("".equals(passwordRegister.getText() )) {
+            JOptionPane.showMessageDialog(new JFrame(), "PASSWORD cannot be empty");
+            return;
+        }
+        if (!confirmRegister.getText().equals(passwordRegister.getText())) {
+            JOptionPane.showMessageDialog(new JFrame(), "PASSWORD does not match");
+            return;
+        }
+        else if (confirmRegister.getText().equals(passwordRegister.getText())) {
+            email = emailRegister.getText();
+            pass = passwordRegister.getText();
+            
+            try {
+            
+            query = "INSERT INTO account_info (acc_email, acc_password) VALUES (?, ?)";
+            PreparedStatement stment = con.prepareStatement(query);
+
+            stment.setString(1, email);
+            stment.setString(2, pass);
+
+            int affectedRows = stment.executeUpdate();
+            
+            if (affectedRows > 0) {
+                JOptionPane.showMessageDialog(new JFrame(), "Register Successfully");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(new JFrame(), "ERROR");
+            return;
+        }
+            
+            emailRegister.setText("");
+            passwordRegister.setText("");
+            Login log = new Login();
+            log.setVisible(true);
+            setVisible(false);
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(new JFrame(), "ERROR");
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -197,6 +279,8 @@ public class Register extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField confirmRegister;
+    private javax.swing.JTextField emailRegister;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -210,10 +294,8 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField passwordRegister;
     // End of variables declaration//GEN-END:variables
 }

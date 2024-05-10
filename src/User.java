@@ -1,14 +1,37 @@
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.statistics.HistogramDataset;
 
 public class User extends javax.swing.JFrame {
 
     public User() {
         initComponents();
+        showHistogram();
+        showPieChart();
+        showLineChart();
+        showBarChart();
+        
         setLocationRelativeTo(null);
+        
         jLabel5.setBackground(Color.BLACK);
         jLabel6.setBackground(Color.GRAY);
         jLabel7.setBackground(Color.GRAY);
@@ -20,8 +43,159 @@ public class User extends javax.swing.JFrame {
         orderPlacement.setVisible(false);
         updates.setVisible(false);
         accountSettings.setVisible(false);
+        
+        
+        try {
+            Connection();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
+    
+    //CHARTTTT
+    public final void showHistogram(){
+        
+         double[] values = { 95, 49, 14, 59, 50, 66, 47, 40, 1, 67,
+                            12, 58, 28, 63, 14, 9, 31, 17, 94, 71,
+                            49, 64, 73, 97, 15, 63, 10, 12, 31, 62,
+                            93, 49, 74, 90, 59, 14, 15, 88, 26, 57,
+                            77, 44, 58, 91, 10, 67, 57, 19, 88, 84                                
+                          };
+
+        HistogramDataset dataset = new HistogramDataset();
+        dataset.addSeries("key", values, 20);
+        
+        JFreeChart chart = ChartFactory.createHistogram("","Data", "Frequency", dataset,PlotOrientation.VERTICAL, false,true,false);
+        XYPlot plot = chart.getXYPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+
+        ChartPanel barpChartPanel2 = new ChartPanel(chart);
+        panelHistogram.removeAll();
+        panelHistogram.setVisible(true);
+        panelHistogram.add(barpChartPanel2, BorderLayout.CENTER);
+        panelHistogram.validate();
+    }
+    
+    public void showPieChart(){
+        
+        //create dataset
+      DefaultPieDataset barDataset = new DefaultPieDataset( );
+      barDataset.setValue( "Item 1" , new Double( 20 ) );  
+      barDataset.setValue( "Item 2" , new Double( 20 ) );   
+      barDataset.setValue( "Item 3" , new Double( 40 ) );    
+      barDataset.setValue( "Item 4" , new Double( 10 ) );  
+      
+      //create chart
+       JFreeChart piechart = ChartFactory.createPieChart("",barDataset, false,true,false);//explain
+      
+        PiePlot piePlot =(PiePlot) piechart.getPlot();
+      
+       //changing pie chart blocks colors
+       piePlot.setSectionPaint("IPhone 5s", new Color(255,255,102));
+        piePlot.setSectionPaint("SamSung Grand", new Color(102,255,102));
+        piePlot.setSectionPaint("MotoG", new Color(255,102,153));
+        piePlot.setSectionPaint("Nokia Lumia", new Color(0,204,204));
+      
+       
+        piePlot.setBackgroundPaint(Color.white);
+        
+        //create chartPanel to display chart(graph)
+        ChartPanel barChartPanel = new ChartPanel(piechart);
+        panelPieChart.removeAll();
+        panelPieChart.add(barChartPanel, BorderLayout.CENTER);
+        panelPieChart.validate();
+    }
+    
+    public void showLineChart(){
+        //create dataset for the graph
+         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.setValue(200, "Amount", "january");
+        dataset.setValue(150, "Amount", "february");
+        dataset.setValue(18, "Amount", "march");
+        dataset.setValue(100, "Amount", "april");
+        dataset.setValue(80, "Amount", "may");
+        dataset.setValue(250, "Amount", "june");
+        
+        //create chart
+        JFreeChart linechart = ChartFactory.createLineChart("","monthly","amount", 
+                dataset, PlotOrientation.VERTICAL, false,true,false);
+        
+        //create plot object
+         CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
+       // lineCategoryPlot.setRangeGridlinePaint(Color.BLUE);
+        lineCategoryPlot.setBackgroundPaint(Color.white);
+        
+        //create render object to change the moficy the line properties like color
+        LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) lineCategoryPlot.getRenderer();
+        Color lineChartColor = new Color(204,0,51);
+        lineRenderer.setSeriesPaint(0, lineChartColor);
+        
+         //create chartPanel to display chart(graph)
+        ChartPanel lineChartPanel = new ChartPanel(linechart);
+        panelLineChart.removeAll();
+        panelLineChart.add(lineChartPanel, BorderLayout.CENTER);
+        panelLineChart.validate();
+    }
+    
+    public void showBarChart(){
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.setValue(200, "Amount", "january");
+        dataset.setValue(150, "Amount", "february");
+        dataset.setValue(18, "Amount", "march");
+        dataset.setValue(100, "Amount", "april");
+        dataset.setValue(80, "Amount", "may");
+        dataset.setValue(250, "Amount", "june");
+        
+        JFreeChart chart = ChartFactory.createBarChart("","monthly","amount", 
+        dataset, PlotOrientation.VERTICAL, false,true,false);
+        
+        CategoryPlot categoryPlot = chart.getCategoryPlot();
+        categoryPlot.setRangeGridlinePaint(Color.BLUE);
+        categoryPlot.setBackgroundPaint(Color.WHITE);
+        BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
+        Color clr3 = new Color(204,0,51);
+        renderer.setSeriesPaint(0, clr3);
+        
+        ChartPanel barpChartPanel = new ChartPanel(chart);
+        panelShowBarChart.removeAll();
+        panelShowBarChart.add(barpChartPanel, BorderLayout.CENTER);
+        panelShowBarChart.validate();
+      
+    }
+    //END OF CHARTTT
+    
+    
     public JFrame mainFrame = new JFrame();
+    
+    Connection con;
+    Statement st;
+    
+    public static final String DbName = "inventory_data";
+    public static final String DbDriver = "com.mysql.cj.jdbc.Driver";
+    public static final String DbUrl = "jdbc:mysql://localhost:3306/"+DbName;
+    private static final String DbUsername = "root";
+    private static final String DbPassword = "";
+    
+    public void Connection() throws SQLException {
+        try {
+            Class.forName(DbDriver);
+            
+            con = DriverManager.getConnection(DbUrl, DbUsername, DbPassword);
+            st = con.createStatement();
+            if (con != null) {
+                System.out.println("connection established");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //auto rename
+    public void setLabelText(String text) {
+        jLabel10.setText(text.toUpperCase());
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -69,10 +243,14 @@ public class User extends javax.swing.JFrame {
         dashboard = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
+        panelPieChart = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        panelLineChart = new javax.swing.JPanel();
+        panelHistogram2 = new javax.swing.JPanel();
+        panelShowBarChart = new javax.swing.JPanel();
+        panelHistogram = new javax.swing.JPanel();
         updates = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
@@ -448,9 +626,7 @@ public class User extends javax.swing.JFrame {
         jSpinner2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jSpinner2.setToolTipText("");
 
-        jButton10.setBackground(new java.awt.Color(255, 255, 255));
         jButton10.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jButton10.setForeground(new java.awt.Color(0, 0, 0));
         jButton10.setText("CANCEL");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -580,20 +756,9 @@ public class User extends javax.swing.JFrame {
         jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         dashboard.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 170, 70));
 
-        jPanel14.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 940, Short.MAX_VALUE)
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
-        );
-
-        dashboard.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 940, 440));
+        panelPieChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelPieChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 380, 220));
 
         jLabel11.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -611,6 +776,22 @@ public class User extends javax.swing.JFrame {
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("DASHBOARD");
         dashboard.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 200, 70));
+
+        panelLineChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelLineChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelLineChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 380, 220));
+
+        panelHistogram2.setBackground(new java.awt.Color(204, 204, 204));
+        panelHistogram2.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelHistogram2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
+
+        panelShowBarChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelShowBarChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelShowBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, 380, 220));
+
+        panelHistogram.setBackground(new java.awt.Color(204, 204, 204));
+        panelHistogram.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelHistogram, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 340, 380, 220));
 
         jPanel4.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
 
@@ -1419,7 +1600,6 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
@@ -1467,6 +1647,11 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextPane jTextPane3;
     private javax.swing.JPanel orderPlacement;
+    private javax.swing.JPanel panelHistogram;
+    private javax.swing.JPanel panelHistogram2;
+    private javax.swing.JPanel panelLineChart;
+    private javax.swing.JPanel panelPieChart;
+    private javax.swing.JPanel panelShowBarChart;
     private javax.swing.JPanel productListings;
     private javax.swing.JPanel updates;
     // End of variables declaration//GEN-END:variables
