@@ -1,35 +1,28 @@
-
-import java.awt.BorderLayout;
+import INVENTORY.*;
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.swing.JFrame;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.statistics.HistogramDataset;
 
 public class User extends javax.swing.JFrame {
 
     public User() {
         initComponents();
-        showHistogram();
-        showPieChart();
-        showLineChart();
-        showBarChart();
-        
+        //Connection to sql
+        Connections connect = new Connections();
+        try {
+            connect.connectToDatabase();
+        } catch (SQLException ex) {
+            Logger.getLogger(Connections.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //Charts
+        Charts chart = new Charts();
+        chart.showLineChart(panelLineChart,"product","sale","DESC");
+        chart.showBarChart(panelShowBarChart, "product", "quantity", "DESC");
+        chart.showBarChart(panelBarChart, "product", "quantity", "ASC");
+        chart.showPieChart(panelPieChart);
+        //Menu
         setLocationRelativeTo(null);
         
         jLabel5.setBackground(Color.BLACK);
@@ -44,154 +37,54 @@ public class User extends javax.swing.JFrame {
         updates.setVisible(false);
         accountSettings.setVisible(false);
         
-        
+        setText();
+    }
+    
+    //set details
+    public void setText(){
+        Connections connect = new Connections();
+        //1st data 
+        String query = "SELECT SUM(quantity) AS total FROM inventory";
         try {
-            Connection();
+            connect.connectToDatabase();  
+            ResultSet rs = connect.getStatement().executeQuery(query);
             
-        } catch (SQLException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    
-    //CHARTTTT
-    public final void showHistogram(){
-        
-         double[] values = { 95, 49, 14, 59, 50, 66, 47, 40, 1, 67,
-                            12, 58, 28, 63, 14, 9, 31, 17, 94, 71,
-                            49, 64, 73, 97, 15, 63, 10, 12, 31, 62,
-                            93, 49, 74, 90, 59, 14, 15, 88, 26, 57,
-                            77, 44, 58, 91, 10, 67, 57, 19, 88, 84                                
-                          };
-
-        HistogramDataset dataset = new HistogramDataset();
-        dataset.addSeries("key", values, 20);
-        
-        JFreeChart chart = ChartFactory.createHistogram("","Data", "Frequency", dataset,PlotOrientation.VERTICAL, false,true,false);
-        XYPlot plot = chart.getXYPlot();
-        plot.setBackgroundPaint(Color.WHITE);
-
-        ChartPanel barpChartPanel2 = new ChartPanel(chart);
-        panelHistogram.removeAll();
-        panelHistogram.setVisible(true);
-        panelHistogram.add(barpChartPanel2, BorderLayout.CENTER);
-        panelHistogram.validate();
-    }
-    
-    public void showPieChart(){
-        
-        //create dataset
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-      barDataset.setValue( "Item 1" , new Double( 20 ) );  
-      barDataset.setValue( "Item 2" , new Double( 20 ) );   
-      barDataset.setValue( "Item 3" , new Double( 40 ) );    
-      barDataset.setValue( "Item 4" , new Double( 10 ) );  
-      
-      //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("",barDataset, false,true,false);//explain
-      
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
-       piePlot.setSectionPaint("IPhone 5s", new Color(255,255,102));
-        piePlot.setSectionPaint("SamSung Grand", new Color(102,255,102));
-        piePlot.setSectionPaint("MotoG", new Color(255,102,153));
-        piePlot.setSectionPaint("Nokia Lumia", new Color(0,204,204));
-      
-       
-        piePlot.setBackgroundPaint(Color.white);
-        
-        //create chartPanel to display chart(graph)
-        ChartPanel barChartPanel = new ChartPanel(piechart);
-        panelPieChart.removeAll();
-        panelPieChart.add(barChartPanel, BorderLayout.CENTER);
-        panelPieChart.validate();
-    }
-    
-    public void showLineChart(){
-        //create dataset for the graph
-         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "january");
-        dataset.setValue(150, "Amount", "february");
-        dataset.setValue(18, "Amount", "march");
-        dataset.setValue(100, "Amount", "april");
-        dataset.setValue(80, "Amount", "may");
-        dataset.setValue(250, "Amount", "june");
-        
-        //create chart
-        JFreeChart linechart = ChartFactory.createLineChart("","monthly","amount", 
-                dataset, PlotOrientation.VERTICAL, false,true,false);
-        
-        //create plot object
-         CategoryPlot lineCategoryPlot = linechart.getCategoryPlot();
-       // lineCategoryPlot.setRangeGridlinePaint(Color.BLUE);
-        lineCategoryPlot.setBackgroundPaint(Color.white);
-        
-        //create render object to change the moficy the line properties like color
-        LineAndShapeRenderer lineRenderer = (LineAndShapeRenderer) lineCategoryPlot.getRenderer();
-        Color lineChartColor = new Color(204,0,51);
-        lineRenderer.setSeriesPaint(0, lineChartColor);
-        
-         //create chartPanel to display chart(graph)
-        ChartPanel lineChartPanel = new ChartPanel(linechart);
-        panelLineChart.removeAll();
-        panelLineChart.add(lineChartPanel, BorderLayout.CENTER);
-        panelLineChart.validate();
-    }
-    
-    public void showBarChart(){
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(200, "Amount", "january");
-        dataset.setValue(150, "Amount", "february");
-        dataset.setValue(18, "Amount", "march");
-        dataset.setValue(100, "Amount", "april");
-        dataset.setValue(80, "Amount", "may");
-        dataset.setValue(250, "Amount", "june");
-        
-        JFreeChart chart = ChartFactory.createBarChart("","monthly","amount", 
-        dataset, PlotOrientation.VERTICAL, false,true,false);
-        
-        CategoryPlot categoryPlot = chart.getCategoryPlot();
-        categoryPlot.setRangeGridlinePaint(Color.BLUE);
-        categoryPlot.setBackgroundPaint(Color.WHITE);
-        BarRenderer renderer = (BarRenderer) categoryPlot.getRenderer();
-        Color clr3 = new Color(204,0,51);
-        renderer.setSeriesPaint(0, clr3);
-        
-        ChartPanel barpChartPanel = new ChartPanel(chart);
-        panelShowBarChart.removeAll();
-        panelShowBarChart.add(barpChartPanel, BorderLayout.CENTER);
-        panelShowBarChart.validate();
-      
-    }
-    //END OF CHARTTT
-    
-    
-    public JFrame mainFrame = new JFrame();
-    
-    Connection con;
-    Statement st;
-    
-    public static final String DbName = "inventory_data";
-    public static final String DbDriver = "com.mysql.cj.jdbc.Driver";
-    public static final String DbUrl = "jdbc:mysql://localhost:3306/"+DbName;
-    private static final String DbUsername = "root";
-    private static final String DbPassword = "";
-    
-    public void Connection() throws SQLException {
-        try {
-            Class.forName(DbDriver);
-            
-            con = DriverManager.getConnection(DbUrl, DbUsername, DbPassword);
-            st = con.createStatement();
-            if (con != null) {
-                System.out.println("connection established");
+            while (rs.next()) {
+                double sum = rs.getDouble("total");
+                jLabel11.setText("<html> <body>Count of all products<br/>: "+sum+"</body> </html>");
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        //2nd data
+        query = "SELECT product, sale FROM inventory ORDER BY sale DESC LIMIT 1";
+        try {
+            connect.connectToDatabase();  
+            ResultSet rs = connect.getStatement().executeQuery(query);
+            
+            while (rs.next()) {
+                String top = rs.getString("product");
+                jLabel3.setText("<html> <body>Top Selling<br/>: "+top+"</body> </html>");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //3rd data
+        query = "SELECT product, quantity FROM inventory ORDER BY quantity ASC LIMIT 1";
+        try {
+            connect.connectToDatabase();  
+            ResultSet rs = connect.getStatement().executeQuery(query);
+            
+            while (rs.next()) {
+                String low = rs.getString("product");
+                jLabel3.setText("<html> <body>Lowest Stock<br/>: "+low+"</body> </html>");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //4th data
+        
     }
-
     //auto rename
     public void setLabelText(String text) {
         jLabel10.setText(text.toUpperCase());
@@ -237,9 +130,15 @@ public class User extends javax.swing.JFrame {
         jSpinner2 = new javax.swing.JSpinner();
         jButton10 = new javax.swing.JButton();
         jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
         jComboBox5 = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
+        updates = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTextPane3 = new javax.swing.JTextPane();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         dashboard = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -248,16 +147,8 @@ public class User extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         panelLineChart = new javax.swing.JPanel();
-        panelHistogram2 = new javax.swing.JPanel();
         panelShowBarChart = new javax.swing.JPanel();
-        panelHistogram = new javax.swing.JPanel();
-        updates = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jTextPane3 = new javax.swing.JTextPane();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        panelBarChart = new javax.swing.JPanel();
         orderPlacement = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel18 = new javax.swing.JPanel();
@@ -488,7 +379,13 @@ public class User extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(123, 164, 255));
         jButton2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButton2.setText("Search");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
+        jTable6.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jTable6.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -503,12 +400,31 @@ public class User extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTable6.setCellSelectionEnabled(true);
+        jTable6.setEnabled(false);
         jScrollPane6.setViewportView(jTable6);
+        if (jTable6.getColumnModel().getColumnCount() > 0) {
+            jTable6.getColumnModel().getColumn(0).setResizable(false);
+            jTable6.getColumnModel().getColumn(1).setResizable(false);
+            jTable6.getColumnModel().getColumn(2).setResizable(false);
+            jTable6.getColumnModel().getColumn(3).setResizable(false);
+            jTable6.getColumnModel().getColumn(4).setResizable(false);
+            jTable6.getColumnModel().getColumn(5).setResizable(false);
+            jTable6.getColumnModel().getColumn(6).setResizable(false);
+            jTable6.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         jTextField1.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
 
@@ -552,6 +468,7 @@ public class User extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Product Listings", jPanel13);
 
+        jTable5.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -638,10 +555,6 @@ public class User extends javax.swing.JFrame {
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Categories", "Item 2", "Item 3", "Item 4" }));
         jComboBox3.setToolTipText("");
 
-        jComboBox4.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Categories", "Item 2", "Item 3", "Item 4" }));
-        jComboBox4.setToolTipText("");
-
         jComboBox5.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Categories", "Item 2", "Item 3", "Item 4" }));
         jComboBox5.setToolTipText("");
@@ -687,11 +600,6 @@ public class User extends javax.swing.JFrame {
                     .addGap(401, 401, 401)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(402, Short.MAX_VALUE)))
-            .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel16Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -720,11 +628,6 @@ public class User extends javax.swing.JFrame {
                     .addGap(211, 211, 211)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(211, Short.MAX_VALUE)))
-            .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel16Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Add Product", jPanel16);
@@ -737,63 +640,6 @@ public class User extends javax.swing.JFrame {
         productListings.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 940, 40));
 
         jPanel4.add(productListings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
-
-        dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        dashboard.setMaximumSize(new java.awt.Dimension(980, 580));
-        dashboard.setMinimumSize(new java.awt.Dimension(980, 580));
-        dashboard.setPreferredSize(new java.awt.Dimension(980, 580));
-        dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Products low on of stock");
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 170, 70));
-
-        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("<html>Top selling item<br/>: Item 2<html/>");
-        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 170, 70));
-
-        panelPieChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelPieChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 380, 220));
-
-        jLabel11.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("<html>\n<head>\n.body{\ntext-align: center;\n}\n</head>\n<body>\nCount of all products<br/>: 10000\n</body>\n</html>");
-        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 170, 70));
-
-        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Number of orders");
-        jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 20, 170, 70));
-
-        jLabel14.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("DASHBOARD");
-        dashboard.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 200, 70));
-
-        panelLineChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelLineChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelLineChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 380, 220));
-
-        panelHistogram2.setBackground(new java.awt.Color(204, 204, 204));
-        panelHistogram2.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelHistogram2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
-
-        panelShowBarChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelShowBarChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelShowBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, 380, 220));
-
-        panelHistogram.setBackground(new java.awt.Color(204, 204, 204));
-        panelHistogram.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelHistogram, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 340, 380, 220));
-
-        jPanel4.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
 
         updates.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         updates.setMaximumSize(new java.awt.Dimension(980, 580));
@@ -859,6 +705,60 @@ public class User extends javax.swing.JFrame {
         );
 
         jPanel4.add(updates, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
+
+        dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        dashboard.setMaximumSize(new java.awt.Dimension(980, 580));
+        dashboard.setMinimumSize(new java.awt.Dimension(980, 580));
+        dashboard.setPreferredSize(new java.awt.Dimension(980, 580));
+        dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("<html>Low On Stocks<br/>: Item<html/>");
+        jLabel2.setToolTipText("");
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 170, 70));
+
+        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("<html>Top Selling<br/>: Item<html/>");
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 170, 70));
+
+        panelPieChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelPieChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 380, 220));
+
+        jLabel11.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("<html> <head> .body{ text-align: center; } </head> <body> Count of all products<br/>: 100</body> </html>");
+        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 170, 70));
+
+        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Number of orders");
+        jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 20, 170, 70));
+
+        jLabel14.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("DASHBOARD");
+        dashboard.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 200, 70));
+
+        panelLineChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelLineChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelLineChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 380, 220));
+
+        panelShowBarChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelShowBarChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelShowBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, 380, 220));
+
+        panelBarChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelBarChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 340, 380, 220));
+
+        jPanel4.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
 
         orderPlacement.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         orderPlacement.setMaximumSize(new java.awt.Dimension(980, 580));
@@ -1365,6 +1265,13 @@ public class User extends javax.swing.JFrame {
 
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        //Charts
+        Charts chart = new Charts();
+        chart.showLineChart(panelLineChart,"product","sale","DESC");
+        chart.showBarChart(panelShowBarChart, "product", "quantity", "DESC");
+        chart.showBarChart(panelBarChart, "product", "quantity", "ASC");
+        chart.showPieChart(panelPieChart);
+        
         jLabel5.setBackground(Color.BLACK);
         jLabel6.setBackground(Color.GRAY);
         jLabel7.setBackground(Color.GRAY);
@@ -1380,6 +1287,11 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        //default value for table
+        TableSql table = new TableSql();
+        table.populateTable(jTable6);
+        table.populateTable(jTable5);
+        
         jLabel5.setBackground(Color.GRAY);
         jLabel6.setBackground(Color.BLACK);
         jLabel7.setBackground(Color.GRAY);
@@ -1505,6 +1417,11 @@ public class User extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox5ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        TableSql table = new TableSql();
+        table.search(jTextField1, jTable6);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1556,7 +1473,6 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1647,8 +1563,7 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextPane jTextPane3;
     private javax.swing.JPanel orderPlacement;
-    private javax.swing.JPanel panelHistogram;
-    private javax.swing.JPanel panelHistogram2;
+    private javax.swing.JPanel panelBarChart;
     private javax.swing.JPanel panelLineChart;
     private javax.swing.JPanel panelPieChart;
     private javax.swing.JPanel panelShowBarChart;

@@ -1,10 +1,7 @@
-
+import INVENTORY.Connections;
 import javax.swing.JOptionPane;
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,42 +9,19 @@ import javax.swing.JFrame;
 
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
     public Login() {
         initComponents();
         setLocationRelativeTo(null);
         
+        //Connection to sql
+        Connections connect = new Connections();
         try {
-            Connection();
+            connect.connectToDatabase();
         } catch (SQLException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Connections.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    Connection con;
-    Statement st;
-    
-    public static final String DbName = "inventory_data";
-    public static final String DbDriver = "com.mysql.cj.jdbc.Driver";
-    public static final String DbUrl = "jdbc:mysql://localhost:3306/"+DbName;
-    private static final String DbUsername = "root";
-    private static final String DbPassword = "";
-    
-    public void Connection() throws SQLException {
-        try {
-            Class.forName(DbDriver);
-            
-            con = DriverManager.getConnection(DbUrl, DbUsername, DbPassword);
-            st = con.createStatement();
-            if (con != null) {
-                System.out.println("connection established");
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -169,6 +143,9 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_emailLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     
+        Connections connect = new Connections();
+        
         String email,pass,query;
         
         email = emailLogin.getText();
@@ -185,7 +162,7 @@ public class Login extends javax.swing.JFrame {
         else{
             query = "SELECT * FROM account_info WHERE acc_email = ? AND acc_password = ?";
             
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            try (PreparedStatement pstmt = connect.getConnection().prepareStatement(query)) {
             pstmt.setString(1, email);
             pstmt.setString(2, pass);
             try (ResultSet rs = pstmt.executeQuery()) {
