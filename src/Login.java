@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 public class Login extends javax.swing.JFrame {
 
     public Login() {
+        
         initComponents();
         setLocationRelativeTo(null);
         
@@ -21,7 +22,6 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Connections.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -146,8 +146,7 @@ public class Login extends javax.swing.JFrame {
      
         Connections connect = new Connections();
         
-        String email,pass,query;
-        
+        String email, pass, query;
         email = emailLogin.getText();
         pass = passwordLogin.getText();
         
@@ -173,7 +172,6 @@ public class Login extends javax.swing.JFrame {
                         ad.setVisible(true);
                         setVisible(false);
                     }else{
-                        
                         User use = new User();
                         use.setLabelText(email);
                         use.setVisible(true);
