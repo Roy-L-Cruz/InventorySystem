@@ -160,8 +160,10 @@ public class Login extends javax.swing.JFrame {
         }
         else{
             query = "SELECT * FROM account_info WHERE acc_email = ? AND acc_password = ?";
+            String userQuery = "SELECT acc_number FROM account_info WHERE acc_email = ?";
             
-            try (PreparedStatement pstmt = connect.getConnection().prepareStatement(query)) {
+            try (PreparedStatement pstmt = connect.getConnection().prepareStatement(query);
+                 PreparedStatement stmt = connect.getConnection().prepareStatement(userQuery)) {
             pstmt.setString(1, email);
             pstmt.setString(2, pass);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -172,10 +174,19 @@ public class Login extends javax.swing.JFrame {
                         ad.setVisible(true);
                         setVisible(false);
                     }else{
-                        User use = new User();
-                        use.setLabelText(email);
-                        use.setVisible(true);
-                        setVisible(false);
+                        stmt.setString(1,email);
+                        try (ResultSet userRs = stmt.executeQuery()) {
+                            if (userRs.next()) {
+                                int userNum = userRs.getInt("acc_number");
+                                User user = new User();
+                                //use.setLabelText(email, userNum);
+                                user.setLabeText(email,userNum);
+                                user.setVisible(true);
+                                setVisible(false);
+                            } else {
+                                JOptionPane.showMessageDialog(new JFrame(), "User not found.");
+                            }
+                        }
                     }
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(), "Invalid Credentials");

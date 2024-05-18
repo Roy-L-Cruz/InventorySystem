@@ -31,10 +31,10 @@ public class User extends javax.swing.JFrame {
         }
         // Charts
         Charts chart = new Charts();
-        chart.showLineChart(panelLineChart,"product","sale","DESC");
+        //chart.showLineChart(panelLineChart,"product","sale","DESC");
         chart.showBarChart(panelShowBarChart, "product", "quantity", "DESC");
         chart.showBarChart(panelBarChart, "product", "quantity", "ASC");
-        chart.showPieChart(panelPieChart);
+        //chart.showPieChart(panelPieChart);
         //Menu
         setLocationRelativeTo(null);
         
@@ -51,6 +51,8 @@ public class User extends javax.swing.JFrame {
         accountSettings.setVisible(false);
         
         setText();
+        
+         
     }
     // Order placement array
     ArrayList<String> orderProductArray = new ArrayList<>();
@@ -115,12 +117,16 @@ public class User extends javax.swing.JFrame {
         }
     }
     // Auto rename
-    public void setLabelText(String text) {
+    public void setLabeText(String text, int userNu) {
         jLabel10.setText(text.toUpperCase());
+        userNum = userNu;
     }
-
+    
+    int userNum;
     Login log = new Login();
     TableSql table = new TableSql();
+    Inventory inventory = new Inventory();
+    OrderPlacement order = new OrderPlacement();
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -156,12 +162,22 @@ public class User extends javax.swing.JFrame {
         orderReceipt = new javax.swing.JTextArea();
         jButton4 = new javax.swing.JButton();
         jPanel19 = new javax.swing.JPanel();
-        jTextField21 = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         jTextField24 = new javax.swing.JTextField();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jLabel23 = new javax.swing.JLabel();
+        dashboard = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        panelShowBarChart = new javax.swing.JPanel();
+        panelBarChart = new javax.swing.JPanel();
         productListings = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel13 = new javax.swing.JPanel();
@@ -194,21 +210,22 @@ public class User extends javax.swing.JFrame {
         jButton13 = new javax.swing.JButton();
         jLabel46 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        dashboard = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        panelPieChart = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        panelLineChart = new javax.swing.JPanel();
-        panelShowBarChart = new javax.swing.JPanel();
-        panelBarChart = new javax.swing.JPanel();
         accountSettings = new javax.swing.JPanel();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel11 = new javax.swing.JPanel();
-        jTextField20 = new javax.swing.JTextField();
-        jLabel36 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        fInfo = new javax.swing.JTextField();
+        eInfo = new javax.swing.JTextField();
+        jLabel49 = new javax.swing.JLabel();
+        mInfo = new javax.swing.JTextField();
+        jLabel50 = new javax.swing.JLabel();
+        cInfo = new javax.swing.JTextField();
+        jLabel51 = new javax.swing.JLabel();
+        lInfo = new javax.swing.JTextField();
+        jLabel52 = new javax.swing.JLabel();
+        gInfo = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
@@ -235,10 +252,7 @@ public class User extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         jLabel33 = new javax.swing.JLabel();
         updates = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jTextPane3 = new javax.swing.JTextPane();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
 
@@ -573,54 +587,61 @@ public class User extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Order Placement", jPanel18);
 
-        jTextField21.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-
         jLabel24.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel24.setText("RETURN OR REFUNDS");
-
-        jLabel37.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel37.setText("DESCRIPTION");
+        jLabel24.setText("RETURN ORDERS");
 
         jButton8.setBackground(new java.awt.Color(255, 204, 204));
         jButton8.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jButton8.setText("RETURN OR REFUND");
+        jButton8.setText("RETURN");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
 
-        jTextField24.setText("Product Code");
+        jTextField24.setText("Order Number");
         jTextField24.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField24ActionPerformed(evt);
             }
         });
 
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Order Number", "Product Name", "Total", "Image"
+            }
+        ));
+        jScrollPane10.setViewportView(jTable3);
+
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 885, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 32, Short.MAX_VALUE))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 314, Short.MAX_VALUE)
                 .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(285, 285, 285))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 921, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -628,17 +649,15 @@ public class User extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton8)
                     .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addGap(45, 45, 45))
         );
 
-        jTabbedPane2.addTab("Return or Refunds", jPanel19);
+        jTabbedPane2.addTab("Return Orders", jPanel19);
 
         jLabel23.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -668,6 +687,62 @@ public class User extends javax.swing.JFrame {
         jPanel4.add(orderPlacement, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
         orderPlacement.getAccessibleContext().setAccessibleName("");
         orderPlacement.getAccessibleContext().setAccessibleDescription("");
+
+        dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        dashboard.setMaximumSize(new java.awt.Dimension(980, 580));
+        dashboard.setMinimumSize(new java.awt.Dimension(980, 580));
+        dashboard.setPreferredSize(new java.awt.Dimension(980, 580));
+        dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("<html>Low On Stocks<br/>: Item<html/>");
+        jLabel2.setToolTipText("");
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 170, 70));
+
+        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("<html>Top Selling<br/>: Item<html/>");
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 170, 70));
+
+        jLabel11.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("<html> <head> .body{ text-align: center; } </head> <body> Count of all products<br/>: 100</body> </html>");
+        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 170, 70));
+
+        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Number of orders");
+        jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 20, 170, 70));
+
+        jLabel14.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("DASHBOARD");
+        dashboard.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 200, 70));
+
+        jLabel37.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel37.setText("HIGHEST STOCKS");
+        dashboard.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 440, 80));
+
+        jLabel53.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabel53.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel53.setText("LOWEST STOCKS");
+        dashboard.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 440, 60));
+
+        panelShowBarChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelShowBarChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelShowBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 440, 380));
+
+        panelBarChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelBarChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 440, 380));
+
+        jPanel4.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
 
         productListings.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         productListings.setMaximumSize(new java.awt.Dimension(980, 580));
@@ -974,60 +1049,6 @@ public class User extends javax.swing.JFrame {
 
         jPanel4.add(productListings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
 
-        dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        dashboard.setMaximumSize(new java.awt.Dimension(980, 580));
-        dashboard.setMinimumSize(new java.awt.Dimension(980, 580));
-        dashboard.setPreferredSize(new java.awt.Dimension(980, 580));
-        dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("<html>Low On Stocks<br/>: Item<html/>");
-        jLabel2.setToolTipText("");
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 170, 70));
-
-        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("<html>Top Selling<br/>: Item<html/>");
-        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 170, 70));
-
-        panelPieChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelPieChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 380, 220));
-
-        jLabel11.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("<html> <head> .body{ text-align: center; } </head> <body> Count of all products<br/>: 100</body> </html>");
-        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 170, 70));
-
-        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Number of orders");
-        jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 20, 170, 70));
-
-        jLabel14.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("DASHBOARD");
-        dashboard.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 200, 70));
-
-        panelLineChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelLineChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelLineChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 380, 220));
-
-        panelShowBarChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelShowBarChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelShowBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, 380, 220));
-
-        panelBarChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelBarChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 340, 380, 220));
-
-        jPanel4.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
-
         accountSettings.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         accountSettings.setMaximumSize(new java.awt.Dimension(980, 580));
         accountSettings.setMinimumSize(new java.awt.Dimension(980, 580));
@@ -1036,12 +1057,45 @@ public class User extends javax.swing.JFrame {
         jTabbedPane4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTabbedPane4.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
 
-        jTextField20.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel45.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jLabel45.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel45.setText("PERSONAL INFORMATION");
+        jLabel45.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLabel36.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel36.setText("PERSONAL INFORMATION");
-        jLabel36.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel47.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel47.setText("First Name");
+
+        jLabel48.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel48.setText("Email Address");
+
+        fInfo.setEditable(false);
+
+        eInfo.setEditable(false);
+
+        jLabel49.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel49.setText("Middle Name");
+
+        mInfo.setEditable(false);
+
+        jLabel50.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel50.setText("Contact Number");
+
+        cInfo.setEditable(false);
+        cInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cInfoActionPerformed(evt);
+            }
+        });
+
+        jLabel51.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel51.setText("Last Name");
+
+        lInfo.setEditable(false);
+
+        jLabel52.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel52.setText("Gender");
+
+        gInfo.setEditable(false);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1050,18 +1104,59 @@ public class User extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField20, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 909, Short.MAX_VALUE))
+                    .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(mInfo)
+                            .addComponent(jLabel51, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel47, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fInfo)
+                            .addComponent(lInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(gInfo)
+                            .addComponent(eInfo)
+                            .addComponent(jLabel52, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cInfo)
+                            .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel47)
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel49)
+                            .addComponent(jLabel50))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(mInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel51)
+                            .addComponent(jLabel52))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(gInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel48)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(eInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Personal Information", jPanel11);
@@ -1098,9 +1193,19 @@ public class User extends javax.swing.JFrame {
         jButton7.setBackground(new java.awt.Color(123, 164, 255));
         jButton7.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButton7.setText("Update Information");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton11.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButton11.setText("Cancel");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -1177,14 +1282,19 @@ public class User extends javax.swing.JFrame {
         jLabel25.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel34.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel34.setText("First Name");
+        jLabel34.setText("Password");
 
         jLabel35.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel35.setText("Last Name");
+        jLabel35.setText("Confirm Password");
 
         jButton6.setBackground(new java.awt.Color(123, 164, 255));
         jButton6.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButton6.setText("Change Password");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton12.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButton12.setText("Cancel");
@@ -1201,11 +1311,11 @@ public class User extends javax.swing.JFrame {
                 .addGap(327, 327, 327)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel34, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField16)
                     .addComponent(jTextField17)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel35))
                 .addContainerGap(323, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
@@ -1215,13 +1325,12 @@ public class User extends javax.swing.JFrame {
                 .addComponent(jLabel25)
                 .addGap(50, 50, 50)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(jLabel34)
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel35))
+                    .addComponent(jLabel34)
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12)
+                .addComponent(jLabel35)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
@@ -1268,15 +1377,9 @@ public class User extends javax.swing.JFrame {
         updates.setMinimumSize(new java.awt.Dimension(980, 580));
         updates.setPreferredSize(new java.awt.Dimension(980, 580));
 
-        jLabel21.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel21.setText("PREVIOUS TRANSACTIONS");
-
         jLabel22.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("ORDER UPDATES");
-
-        jScrollPane8.setViewportView(jTextPane3);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1299,18 +1402,11 @@ public class User extends javax.swing.JFrame {
         updates.setLayout(updatesLayout);
         updatesLayout.setHorizontalGroup(
             updatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(updatesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(updatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(updatesLayout.createSequentialGroup()
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(updatesLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane8)
-                        .addGap(9, 9, 9))
-                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, updatesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 905, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
         updatesLayout.setVerticalGroup(
             updatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1318,12 +1414,8 @@ public class User extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jPanel4.add(updates, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
@@ -1338,10 +1430,10 @@ public class User extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // Charts
         Charts chart = new Charts();
-        chart.showLineChart(panelLineChart,"product","sale","DESC");
+        //chart.showLineChart(panelLineChart,"product","sale","DESC");
         chart.showBarChart(panelShowBarChart, "product", "quantity", "DESC");
         chart.showBarChart(panelBarChart, "product", "quantity", "ASC");
-        chart.showPieChart(panelPieChart);
+        //chart.showPieChart(panelPieChart);
         
         jLabel5.setBackground(Color.BLACK);
         jLabel6.setBackground(Color.GRAY);
@@ -1358,7 +1450,6 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-
         // Default value for table
         table.populateUserTable(jTable6);
         table.populateUserTable(jTable5);
@@ -1395,6 +1486,9 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        table.populateOrderUser(jTable2, jLabel10.getText());
+        table.populateOrderUser(jTable3, jLabel10.getText());
+        
         jLabel5.setBackground(Color.GRAY);
         jLabel6.setBackground(Color.GRAY);
         jLabel7.setBackground(Color.GRAY);
@@ -1410,6 +1504,13 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        table.getInfo(fInfo, userNum, "first_name");
+        table.getInfo(mInfo,userNum, "middle_name");
+        table.getInfo(lInfo, userNum, "last_name");
+        table.getInfo(eInfo, userNum, "acc_email");
+        table.getInfo(cInfo, userNum, "contact");
+        table.getInfo(gInfo, userNum, "gender");
+        
         jLabel5.setBackground(Color.GRAY);
         jLabel6.setBackground(Color.GRAY);
         jLabel7.setBackground(Color.GRAY);
@@ -1444,6 +1545,9 @@ public class User extends javax.swing.JFrame {
         addDescription.setText("");
         addExpiration.setDate(null);
         path="";
+        
+        table.populateUserTable(jTable6);
+        table.populateUserTable(jTable5);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void addProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProductActionPerformed
@@ -1470,11 +1574,12 @@ public class User extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        order.returnOfItem(Integer.valueOf(jTextField24.getText()));
+        jTextField24.setText("Order Number");
+        table.populateOrderUser(jTable3, jLabel10.getText());
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        OrderPlacement order = new OrderPlacement();
         boolean isTrue = order.ProductChecker(orderProduct.getText(), (Integer) orderQuantity.getValue());
         if (isTrue) {
             orderProductArray.add(orderProduct.getText());
@@ -1509,6 +1614,10 @@ public class User extends javax.swing.JFrame {
         orderReceipt.setText("");
         Inventory inv = new Inventory();
         inv.generateReceipt(orderProductArray, orderQuantityArray, prices, orderReceipt);   
+        
+        orderProduct.setText(null);
+        orderQuantity.setValue(0);
+        orderLocation.setText(null);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void orderProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderProductActionPerformed
@@ -1565,7 +1674,48 @@ public class User extends javax.swing.JFrame {
         orderProductArray.removeAll(orderProductArray);
         orderQuantityArray.removeAll(orderQuantityArray);
         prices.removeAll(prices);
+        orderProduct.setText(null);
+        orderQuantity.setValue(0);
+        orderLocation.setText(null);
+        orderReceipt.setText(null);
+        
+        table.populateUserTable(jTable7);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void cInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cInfoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cInfoActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        inventory.updateInfo(jTextField12, jTextField10, jTextField11, jTextField14, jTextField15, jTextField13, jLabel10.getText(), userNum);
+        
+        table.getInfo(fInfo, userNum, "first_name");
+        table.getInfo(mInfo,userNum, "middle_name");
+        table.getInfo(lInfo, userNum, "last_name");
+        table.getInfo(eInfo, userNum, "acc_email");
+        table.getInfo(cInfo, userNum, "contact");
+        table.getInfo(gInfo, userNum, "gender");
+        
+        jTextField10.setText("");
+        jTextField11.setText("");
+        jTextField12.setText("");
+        jTextField13.setText("");
+        jTextField14.setText("");
+        jTextField15.setText("");
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        jTextField10.setText("");
+        jTextField11.setText("");
+        jTextField12.setText("");
+        jTextField13.setText("");
+        jTextField14.setText("");
+        jTextField15.setText("");
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        inventory.updatePassword(jTextField16.getText(), jTextField17.getText(), userNum);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1611,7 +1761,11 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JTextField addPrice;
     private javax.swing.JTextField addProduct;
     private javax.swing.JSpinner addQuantity;
+    private javax.swing.JTextField cInfo;
     private javax.swing.JPanel dashboard;
+    private javax.swing.JTextField eInfo;
+    private javax.swing.JTextField fInfo;
+    private javax.swing.JTextField gInfo;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -1638,7 +1792,6 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
@@ -1654,7 +1807,6 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
@@ -1664,8 +1816,16 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1682,16 +1842,17 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable5;
     private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable7;
@@ -1704,18 +1865,15 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextPane jTextPane3;
+    private javax.swing.JTextField lInfo;
+    private javax.swing.JTextField mInfo;
     private javax.swing.JTextField orderLocation;
     private javax.swing.JPanel orderPlacement;
     private javax.swing.JTextField orderProduct;
     private javax.swing.JSpinner orderQuantity;
     private javax.swing.JTextArea orderReceipt;
     private javax.swing.JPanel panelBarChart;
-    private javax.swing.JPanel panelLineChart;
-    private javax.swing.JPanel panelPieChart;
     private javax.swing.JPanel panelShowBarChart;
     private javax.swing.JPanel productListings;
     private javax.swing.JPanel updates;

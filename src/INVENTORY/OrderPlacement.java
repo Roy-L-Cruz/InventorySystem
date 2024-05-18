@@ -61,6 +61,27 @@ public class OrderPlacement {
         }
     }
     
+    public void returnOfItem(int orderNumber) {
+        // Connection to the database
+        Connections connect = new Connections();
+        // SQL query for updating the order_status
+        String query = "UPDATE order_placement SET order_status = 'RETURN' WHERE order_number = ?";
+        try (Connection connection = connect.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            // Set parameter
+            statement.setInt(1, orderNumber);
+            // Execute the query
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Order status updated to RETURN successfully.");
+            } else {
+                System.out.println("No order found with the specified account number.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating order status: " + e.getMessage());
+        }
+    }
+    
     public Boolean ProductChecker(String orderProduct, int orderQuantity) {
         // Connection to the database
         Connections connect = new Connections();
