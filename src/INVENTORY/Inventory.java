@@ -30,7 +30,7 @@ public class Inventory {
         String productName = addProduct.getText();
         String category = (String) addCategory.getSelectedItem();
         double price = Double.parseDouble(addPrice.getText());
-        int quantity = AddQuantity.getComponentCount();
+        int quantity = (Integer) AddQuantity.getValue();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String expiration = dateFormat.format(addExpiration.getDate()); // Assuming addExpiration is a JDateChooser
         String description = AddDescription.getText();
@@ -189,7 +189,7 @@ public class Inventory {
     public void generateReceipt(ArrayList<String> orderProductArray, ArrayList<Integer> orderQuantityArray, ArrayList<Double> prices, JTextArea orderReceipt) {
         // Append receipt header to JTextArea
         orderReceipt.append("Receipt\n----------------------------------------------\n");
-        orderReceipt.append(String.format("%-20s %-8s %-10s %-10s\n", "Product", "Quantity", "Price", "Total"));
+        orderReceipt.append(String.format("%-15s %-13s %-10s %-10s\n", "Product", "Quantity", "Price", "Total"));
         orderReceipt.append("----------------------------------------------\n");
         double totalAmount = 0.0;
         // Append each product entry to JTextArea
@@ -211,7 +211,7 @@ public class Inventory {
         // Connection to the database
         Connections connect = new Connections();
         // SQL query for updating the user's info
-        String query = "UPDATE order_management SET order_status = ? WHERE acc_number = ?";
+        String query = "UPDATE order_placement SET order_status = ? WHERE order_number = ?";
         try (Connection connection = connect.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {
                 // Set parameters

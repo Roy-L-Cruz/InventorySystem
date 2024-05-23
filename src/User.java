@@ -168,16 +168,6 @@ public class User extends javax.swing.JFrame {
         jScrollPane10 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jLabel23 = new javax.swing.JLabel();
-        dashboard = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel53 = new javax.swing.JLabel();
-        panelShowBarChart = new javax.swing.JPanel();
-        panelBarChart = new javax.swing.JPanel();
         productListings = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel13 = new javax.swing.JPanel();
@@ -210,6 +200,16 @@ public class User extends javax.swing.JFrame {
         jButton13 = new javax.swing.JButton();
         jLabel46 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        dashboard = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        panelShowBarChart = new javax.swing.JPanel();
+        panelBarChart = new javax.swing.JPanel();
         accountSettings = new javax.swing.JPanel();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel11 = new javax.swing.JPanel();
@@ -688,62 +688,6 @@ public class User extends javax.swing.JFrame {
         orderPlacement.getAccessibleContext().setAccessibleName("");
         orderPlacement.getAccessibleContext().setAccessibleDescription("");
 
-        dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        dashboard.setMaximumSize(new java.awt.Dimension(980, 580));
-        dashboard.setMinimumSize(new java.awt.Dimension(980, 580));
-        dashboard.setPreferredSize(new java.awt.Dimension(980, 580));
-        dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("<html>Low On Stocks<br/>: Item<html/>");
-        jLabel2.setToolTipText("");
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 170, 70));
-
-        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("<html>Top Selling<br/>: Item<html/>");
-        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 170, 70));
-
-        jLabel11.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("<html> <head> .body{ text-align: center; } </head> <body> Count of all products<br/>: 100</body> </html>");
-        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 170, 70));
-
-        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Number of orders");
-        jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        dashboard.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 20, 170, 70));
-
-        jLabel14.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("DASHBOARD");
-        dashboard.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 200, 70));
-
-        jLabel37.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel37.setText("HIGHEST STOCKS");
-        dashboard.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 440, 80));
-
-        jLabel53.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        jLabel53.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel53.setText("LOWEST STOCKS");
-        dashboard.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 440, 60));
-
-        panelShowBarChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelShowBarChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelShowBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 440, 380));
-
-        panelBarChart.setBackground(new java.awt.Color(204, 204, 204));
-        panelBarChart.setLayout(new java.awt.BorderLayout());
-        dashboard.add(panelBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 440, 380));
-
-        jPanel4.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
-
         productListings.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         productListings.setMaximumSize(new java.awt.Dimension(980, 580));
         productListings.setMinimumSize(new java.awt.Dimension(980, 580));
@@ -1048,6 +992,62 @@ public class User extends javax.swing.JFrame {
         productListings.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 940, 40));
 
         jPanel4.add(productListings, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
+
+        dashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        dashboard.setMaximumSize(new java.awt.Dimension(980, 580));
+        dashboard.setMinimumSize(new java.awt.Dimension(980, 580));
+        dashboard.setPreferredSize(new java.awt.Dimension(980, 580));
+        dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("<html>Low On Stocks<br/>: Item<html/>");
+        jLabel2.setToolTipText("");
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 170, 70));
+
+        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("<html>Top Selling<br/>: Item<html/>");
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 170, 70));
+
+        jLabel11.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("<html> <head> .body{ text-align: center; } </head> <body> Count of all products<br/>: 100</body> </html>");
+        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 170, 70));
+
+        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Number of orders");
+        jLabel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        dashboard.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 20, 170, 70));
+
+        jLabel14.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("DASHBOARD");
+        dashboard.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 200, 70));
+
+        jLabel37.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel37.setText("HIGHEST STOCKS");
+        dashboard.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 440, 80));
+
+        jLabel53.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabel53.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel53.setText("LOWEST STOCKS");
+        dashboard.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 440, 60));
+
+        panelShowBarChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelShowBarChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelShowBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 440, 380));
+
+        panelBarChart.setBackground(new java.awt.Color(204, 204, 204));
+        panelBarChart.setLayout(new java.awt.BorderLayout());
+        dashboard.add(panelBarChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 440, 380));
+
+        jPanel4.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 980, 580));
 
         accountSettings.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         accountSettings.setMaximumSize(new java.awt.Dimension(980, 580));
